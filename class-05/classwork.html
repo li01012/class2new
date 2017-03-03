@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+  .subunit.ENG {
+   fill: red;
+  }
+   .subunit.IRL {
+   fill: purple;
+  }
+   .subunit.NIR {
+   fill: blue;
+  }
+   .subunit.SCT {
+   fill: BLACK;
+  }
+   .subunit.WLS {
+   fill: brown;
+  }
+  
+  
+  .subunit-label {
+  fill: #777;
+  fill-opacity: .5;
+  font-size: 20px;
+  font-weight: 300;
+  text-anchor: middle;
+}
+  /* CSS goes here. */
+
+</style>
+<body>
+<script src="//d3js.org/d3.v4.min.js" charset="utf-8"></script>
+<script src="//d3js.org/topojson.v2.min.js"></script>
+<script>
+  
+  
+var width = 960,
+    height = 1160;
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+ 
+
+  
+  
+ // var projection = d3.geoMercator();
+  var projection = d3.geoAlbers()
+    .center([0, 55.4])
+    .rotate([4.4, 0])
+    .parallels([50, 60])
+    .scale(6000)
+    .translate([width / 4, height / 6]);
+  
+  var path = d3.geoPath().projection(projection);
+  
+// console.log(projection.translate([280, 450]))
+  
+var url = "https://bost.ocks.org/mike/map/uk.json"
+d3.json(url, function(error, uk) {
+  if (error) return console.error(error);
+  
+  //console.log( Object.keys(uk.objects))
+var subunits = topojson.feature(uk, uk.objects.subunits ).features;
+  
+  svg.selectAll('path')
+     // .datum(subunits)
+  .data(subunits)
+ .enter().append('path')
+  //.attr('fill', 'brown')
+  .each(function(d, i){ console.log(i,d.id)})
+  .attr('class', function(d){ return 'subunit '+ d.id})
+  .attr("d", function (d) {return path(d)});
+  
+  svg.append("path")
+    .datum(topojson.feature(uk, uk.objects.places))
+    .attr("d", path)
+    .attr("class", "place");
+  
+  svg.selectAll(".place-label")
+    .data(topojson.feature(uk, uk.objects.places).features)
+  .enter().append("text")
+    .attr("class", "place-label")
+    .attr("transform", function(d) { return "translate(" + projection(d.geometry.coordinates) + ")"; })
+    .attr("dy", ".35em")
+    .text(function(d) { return d.properties.name; });
+});
+
+</script>
