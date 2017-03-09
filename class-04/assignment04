@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>class 3 - states</title>
+<style>
+body {
+ position: absolute;
+ margin: 0px;
+}
+svg {
+ background-color: White;
+}
+.info {
+ font-family: sans-serif;
+ color: red;
+ position: absolute;
+ top: 450px;
+ left: 800px;
+}
+path {
+ fill: grey;
+ stroke:#555555 ;
+}
+</style>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+
+<body>
+<script>
+var width = 960, height = 500;
+var data;  
+var svg = d3.select("body").append("svg")
+   .attr("width", width)
+   .attr("height", height)
+   .on("mousemove", mousemoved);
+ var layer=svg.append('g');
+var layer2 = svg.append('g');
+var info = d3.select("body").append("div")
+   .attr("class", "info");
+var projection = d3.geoAlbersUsa();
+var path = d3.geoPath()
+   .projection(projection);
+ var pathQuake = d3.geoPath()
+   .pointRadius(5)
+   .projection(projection);
+
+var url = "https://umbcvis.github.io/classes/class-03/us.json"
+var usgs = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+d3.json(url, plotStates);
+d3.json(usgs, plotQuakes);
+ 
+  function plotQuakes(error, data) {
+    if (error) console.log(error);
+    console.log(data);
+    
+    //Quakes
+    var point = layer2.selectAll("path.quake")
+          .data(data.features)
+          .enter();
+    var areas = point.append("path")
+          .attr("d", path)
+          .attr("class", "quake");
+    
+    //labels
+    point.append("text")
+          .attr("x", function (d) { return path.centroid(d)[0]; })
+          .attr("y", function (d) { return path.centroid(d)[1]; })
+          .text (function (d) { return d.properties.mag; }); 
+  }
+function plotStates(error, json)
+ {
+
+ data = json.objects.us.geometries.map(function(d) { return topojson.feature(json, d); })
+ 
+ layer.selectAll("path")
+     .data(data)
+   .enter()
+     .append("path")
+     .attr("d", path);
+}
+function mousemoved() {
+ info.text(formatLocation(projection.invert(d3.mouse(this)), projection.scale()));
+}
+function formatLocation(p, k) {
+ var format = d3.format("." + Math.floor(Math.log(k) / 2 - 2) + "f");
+ 
+}
+  </script>
