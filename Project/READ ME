@@ -1,15 +1,25 @@
- "1999-2015.  Centers for Disease Control and Prevention (CDC). State Tobacco Activities Tracking and Evaluation (STATE) System. 
- YTS Data.  The YTS was developed to provide states with comprehensive data on both middle school and high school students 
- regarding tobacco use, exposure to environmental tobacco smoke, smoking cessation, school curriculum, minors' ability 
- to purchase or otherwise obtain tobacco products, knowledge and attitudes about tobacco, and familiarity with pro-tobacco
- and anti-tobacco media messages.  The YTS uses a two-stage cluster sample design to produce representative samples of students 
- in middle schools (grades 6–8) and high schools (grades 9–12).
- The data for the STATE System were extracted from Youth Tobacco Surveys from participating states.  Tobacco topics included
- are cigarette smoking prevalence, cigarette smoking frequency, smokeless tobacco products prevalence and quit attempts."
- 
- 
- 
- https://chronicdata.cdc.gov/api/views/4juz-x2tp/rows.json?accessType=DOWNLOAD
+## Choropleth Map for Cancer incident rate in State of Texas
+
+## Data
+Data: https://github.com/li01012/classes/blob/master/Project/Final_Texas_Data.csv
+
+demos
+
+https://bl.ocks.org/li01012/28ebf6574f95d366ee47365018d5bb09
+
+To Do
+
+
+Documentation
+
+
+
+You have a file called README -- rename it to README.md and update the content
+i took the example from class 12 demo, but the difficulty gets me where am using CSV instead of json. 
+Technical
+
+
+
  
  
  
